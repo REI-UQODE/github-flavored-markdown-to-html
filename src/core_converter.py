@@ -18,7 +18,7 @@ if int(mistune.__version__.split(".")[0]) == 0 or mistune.__version__.startswith
     raise ImportError(
         "OFFLINE conversion requires 'mistune' package >= 2.0.0rc1!\n\ttry running: pip3 install mistune>=2.0.0rc1")
 
-from mistune.scanner import escape_html
+from mistune.util import safe_entity
 from mistune.block_parser import BlockParser
 
 
@@ -63,7 +63,7 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
         return (
                     '<a href="' + self._safe_url(src) + '" rel="nofollow">'
                     '<img alt="' + alt + '"'
-                    + ((' title="' + escape_html(title) + '"') if title else "")
+                    + ((' title="' + safe_entity(title) + '"') if title else "")
                     + ' data-canonical-src="' + self._safe_url(src) + '"'
                     + ' src="' + self._safe_url(src) + '"'
                     + ' style="max-width:100%;"/>'
@@ -80,7 +80,7 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
 
         s = '<a href="' + self._safe_url(link) + ('" rel="nofollow"' if not INTERNAL_USE else '"')
         if title:
-            s += ' title="' + escape_html(title) + '"'
+            s += ' title="' + safe_entity(title) + '"'
         return s + '>' + (text or link) + '</a>'
 
     def list_item(self, text, level):
