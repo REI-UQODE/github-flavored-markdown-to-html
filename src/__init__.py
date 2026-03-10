@@ -44,7 +44,7 @@ try:
 except (ImportError, ModuleNotFoundError):
     imported_difflib = False
 
-import .core_converter
+import core_converter
 
 MODULE_PATH = os.path.join(*os.path.split(__file__)[:-1])
 DEBUG = False  # whether to print debug information
