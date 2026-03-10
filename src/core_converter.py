@@ -40,15 +40,16 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
         self._escape = escape
         self._allow_harmful_protocols = allow_harmful_protocols
 
-    def block_code(self, code, language=None):
+    def block_code(self, code, info = None):
+        language = info.split(None, 1)[0]
         if language:
             lexer = get_lexer_by_name(language, stripall=True)
             formatter = pygments_html.HtmlFormatter()
             highlighted = highlight(code, lexer, formatter)
             return highlighted
-        return '<pre><code>' + mistune.escape(code) + '</code></pre>'
+        return '<pre><code>' + mistune.escape_text(code) + '</code></pre>'
 
-    def heading(self, text, level):
+    def heading(self, text, level, **attrs):
         tag = 'h' + str(level)
         id_from_title = heading_name_to_id_value(text)
         full_element = (
@@ -59,18 +60,19 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
         )
         return full_element
 
-    def image(self, src, alt="", title=None):
+    def image(self, text: str, url: str, title = None):
         return (
-                    '<a href="' + self._safe_url(src) + '" rel="nofollow">'
-                    '<img alt="' + alt + '"'
+                    '<a href="' + self.safe_url(url) + '" rel="nofollow">'
+                    '<img alt="' + text + '"'
                     + ((' title="' + safe_entity(title) + '"') if title else "")
-                    + ' data-canonical-src="' + self._safe_url(src) + '"'
-                    + ' src="' + self._safe_url(src) + '"'
+                    + ' data-canonical-src="' + self._safe_url(url) + '"'
+                    + ' src="' + self.safe_url(url) + '"'
                     + ' style="max-width:100%;"/>'
                     + '</a>'
         )
 
-    def link(self, url, text=None, title=None):
+
+    def link(self, text: str, url: str, title = None):
         if text is None:
             text = url
         elif text.startswith("<a "):
@@ -78,12 +80,12 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
             _, right_side = not_left_side.split('"', 1)
             return left_side + ' href="' + url + '"' + right_side
 
-        s = '<a href="' + self._safe_url(url) + ('" rel="nofollow"' if not INTERNAL_USE else '"')
+        s = '<a href="' + self.safe_url(url) + ('" rel="nofollow"' if not INTERNAL_USE else '"')
         if title:
             s += ' title="' + safe_entity(title) + '"'
         return s + '>' + (text or url) + '</a>'
 
-    def list_item(self, text, level):
+    def list_item(self, text):
         return '<li>\n' + text + '</li>\n'
 
     def paragraph(self, text):
