@@ -29,11 +29,11 @@ INTERNAL_USE = False
 # GitHub flavored renderer (mainly for syntax highlighting and adding links around images):
 
 class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
-    HARMFUL_PROTOCOLS = {
+    HARMFUL_PROTOCOLS = (
         'javascript:',
         'vbscript:',
         'data:',
-    } if not INTERNAL_USE else set()
+    ) if not INTERNAL_USE else ()
 
     def __init__(self, escape=False, allow_harmful_protocols=None):
         super().__init__()
