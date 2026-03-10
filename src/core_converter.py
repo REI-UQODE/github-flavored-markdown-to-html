@@ -47,7 +47,7 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
             formatter = pygments_html.HtmlFormatter()
             highlighted = highlight(code, lexer, formatter)
             return highlighted
-        return '<pre><code>' + mistune.escape_text(code) + '</code></pre>'
+        return '<pre><code>' + mistune.escape(code) + '</code></pre>'
 
     def heading(self, text, level, **attrs):
         tag = 'h' + str(level)
