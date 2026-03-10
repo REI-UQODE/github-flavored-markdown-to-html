@@ -97,7 +97,7 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
 
 # build a markdown renderer/parser instance for our purpose:
 markdown = mistune.create_markdown(
-    renderer=mistune.HTMLRenderer(),
+    renderer=GitHubFlavoredHighlightRenderer(),
     plugins=['strikethrough', 'url'] + (["footnotes"] if INTERNAL_USE else []) + ["table"]
 )
 
