@@ -41,8 +41,8 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
         self._allow_harmful_protocols = allow_harmful_protocols
 
     def block_code(self, code, info = None):
-        language = info.split(None, 1)[0]
-        if language:
+        if info:
+            language = info.split(None, 1)[0]
             lexer = get_lexer_by_name(language, stripall=True)
             formatter = pygments_html.HtmlFormatter()
             highlighted = highlight(code, lexer, formatter)
