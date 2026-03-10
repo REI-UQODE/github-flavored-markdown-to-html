@@ -65,7 +65,7 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
                     '<a href="' + self.safe_url(url) + '" rel="nofollow">'
                     '<img alt="' + text + '"'
                     + ((' title="' + safe_entity(title) + '"') if title else "")
-                    + ' data-canonical-src="' + self._safe_url(url) + '"'
+                    + ' data-canonical-src="' + self.safe_url(url) + '"'
                     + ' src="' + self.safe_url(url) + '"'
                     + ' style="max-width:100%;"/>'
                     + '</a>'
