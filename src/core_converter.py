@@ -70,6 +70,19 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
                     + '</a>'
         )
 
+    def link(self, url, text=None, title=None):
+        if text is None:
+            text = url
+        elif text.startswith("<a "):
+            left_side, not_left_side = text.split(' href="', 1)
+            _, right_side = not_left_side.split('"', 1)
+            return left_side + ' href="' + url + '"' + right_side
+
+        s = '<a href="' + self._safe_url(url) + ('" rel="nofollow"' if not INTERNAL_USE else '"')
+        if title:
+            s += ' title="' + safe_entity(title) + '"'
+        return s + '>' + (text or url) + '</a>'
+
     def list_item(self, text, level):
         return '<li>\n' + text + '</li>\n'
 
@@ -82,7 +95,7 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
 
 # build a markdown renderer/parser instance for our purpose:
 markdown = mistune.create_markdown(
-    renderer=GitHubFlavoredHighlightRenderer(),
+    renderer=mistune.HTMLRenderer(),
     plugins=['strikethrough', 'url'] + (["footnotes"] if INTERNAL_USE else []) + ["table"]
 )
 
