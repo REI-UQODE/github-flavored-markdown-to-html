@@ -43,10 +43,13 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
     def block_code(self, code, info = None):
         if info:
             language = info.split(None, 1)[0]
-            lexer = get_lexer_by_name(language, stripall=True)
-            formatter = pygments_html.HtmlFormatter()
-            highlighted = highlight(code, lexer, formatter)
-            return highlighted
+            try:
+                lexer = get_lexer_by_name(language, stripall=True)
+                formatter = pygments_html.HtmlFormatter()
+                highlighted = highlight(code, lexer, formatter)
+                return highlighted
+            except Exception as e:
+                print(e)
         return '<pre><code>' + mistune.escape(code) + '</code></pre>'
 
     def heading(self, text, level, **attrs):
