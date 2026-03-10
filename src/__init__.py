@@ -44,7 +44,7 @@ try:
 except (ImportError, ModuleNotFoundError):
     imported_difflib = False
 try:
-    from src import core_converter
+    import core_converter
 except:
     import core_converter
 
