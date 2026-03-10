@@ -70,19 +70,6 @@ class GitHubFlavoredHighlightRenderer(mistune.HTMLRenderer):
                     + '</a>'
         )
 
-    def link(self, link, text=None, title=None):
-        if text is None:
-            text = link
-        elif text.startswith("<a "):
-            left_side, not_left_side = text.split(' href="', 1)
-            _, right_side = not_left_side.split('"', 1)
-            return left_side + ' href="' + link + '"' + right_side
-
-        s = '<a href="' + self._safe_url(link) + ('" rel="nofollow"' if not INTERNAL_USE else '"')
-        if title:
-            s += ' title="' + safe_entity(title) + '"'
-        return s + '>' + (text or link) + '</a>'
-
     def list_item(self, text, level):
         return '<li>\n' + text + '</li>\n'
 
