@@ -996,7 +996,7 @@ def main(md_origin, origin_type="file", website_root=None, destination=None, ima
             if DEBUG:
                 print("new image_src:", save_image_as)
             save_image_as = save_image_as.split("?")[0]  # <-- remove the extra url parts
-            save_image_as = re.split("[/\\\]", save_image_as)[-1]  # <--  take only the last element of the path
+            save_image_as = re.split("[/\\]", save_image_as)[-1]  # <--  take only the last element of the path
             save_image_as = save_image_as.rsplit(".", 1)[0]  # <-- remove the extension
             save_image_as = re.sub(r'(?u)[^-\w.]', '', save_image_as)  # <-- remove disallowed characters
             if DEBUG:
